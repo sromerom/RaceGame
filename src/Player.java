@@ -2,10 +2,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Player {
-    Rectangle sc = new Rectangle(0, 0, 30, 30);
+    Circle sc;
+    //Rectangle sc = new Rectangle(0, 0, 30, 30);
     private int score;
     private float x;
     private float y;
@@ -29,7 +31,7 @@ public class Player {
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        sc = new Rectangle(0, 0, 30, 30);
+        sc = new Circle(0, 0, 15, 15);
         //graphics.drawString("Això és una prova!!", this.x, this.y);
         sc.setX(this.x);
         sc.setY(this.y);
