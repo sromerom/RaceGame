@@ -3,7 +3,9 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class RaceGame extends org.newdawn.slick.BasicGame {
 
-    Player player = new Player();
+
+    Player player = new Player(new Punto(300, 400));
+
     World world = new World();
 
     public RaceGame(String gamename) {
@@ -13,11 +15,17 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         this.player.init(gameContainer);
+
+        world.controlador = 0;
+
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
         this.player.update(gameContainer, i);
+
+        this.world.update(gameContainer, i);
+
     }
 
     @Override
