@@ -23,7 +23,7 @@ public class World {
             }
         }
     }
-    
+
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         add();
 
