@@ -3,63 +3,73 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.util.Random;
+
 public class Obstacle {
 
-    private float x = 0;
-    private float y = 320;
-    private float x2 = 426;
-    private float y2 = 320;
+    private Punto posicio;
+    private Punto posicio2;
+    private Velocitat velocitat;
 
+    public Obstacle (Punto posicio, Punto posicio2, Velocitat velocitat) {
+        this.setPosicio(posicio);
+        this.setPosicio2(posicio2);
+        this.velocitat = velocitat;
+    }
 
+    public double getRandom(int min, int max) {
+        return Math.random() * (max - min) + min;
+    }
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        Rectangle a = new Rectangle(getX(), getY(), 250, 10);
-        Rectangle a2 = new Rectangle(getX2(), getY2(), 250, 10);
+        //posicio = new Punto(0, 320);
+        //posicio2 = new Punto(426, 320);
+        double random = getRandom(0, 640);
+        Rectangle a = new Rectangle(getPosicio().getX(), getPosicio().getY(), 250, 10);
+        Rectangle a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 250, 10);
         graphics.draw(a);
         graphics.draw(a2);
-        setY(getY() - 50);
-        setY2(getY2() - 50);
     }
 
-    public float getX() {
-        return x;
+    public Punto getPosicio() {
+        return posicio;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setPosicio(Punto posicio) {
+        this.posicio = posicio;
     }
 
-    public float getY() {
-        return y;
+    public Punto getPosicio2() {
+        return posicio2;
+    }
+    public void setPosicio2(Punto posicio2) {
+        this.posicio2 = posicio2;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public Velocitat getVelocitat() {
+        return velocitat;
     }
 
-    public float getX2() {
-        return x2;
+    public void setVelocitat(Velocitat velocitat) {
+        this.velocitat = velocitat;
     }
 
-    public void setX2(float x2) {
-        this.x2 = x2;
-    }
-
-    public float getY2() {
-        return y2;
-    }
-
-    public void setY2(float y2) {
-        this.y2 = y2;
+    public void updateN(int delta) {
+        float x = posicio.getX() + velocitat.getXVelocitat() * ((float) delta / 1000);
+        float y = posicio.getY() + velocitat.getYVelocitat() * ((float) delta / 1000);
+        float x2 = posicio2.getX() + velocitat.getXVelocitat() * ((float) delta / 1000);
+        float y2 = posicio2.getY() + velocitat.getYVelocitat() * ((float) delta / 1000);
+        this.setPosicio(new Punto(x, y));
+        this.setPosicio2(new Punto(x2, y2));
     }
 }
-/*
+
 class Punto {
     private float x;
     private float y;
 
     public Punto(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
     }
 
     public float getX() {
@@ -78,5 +88,4 @@ class Punto {
         this.y = y;
     }
 }
-*/
 
