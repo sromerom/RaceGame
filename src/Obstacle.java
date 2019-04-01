@@ -4,13 +4,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 
-import java.util.Random;
-
 public class Obstacle {
 
     private Punto posicio;
     private Punto posicio2;
     private Velocitat velocitat;
+    float random = getRandom();
+    public float tm = 640 - (random + 140);
+
 
     public Obstacle (Punto posicio, Punto posicio2, Velocitat velocitat) {
         this.setPosicio(posicio);
@@ -18,17 +19,20 @@ public class Obstacle {
         this.velocitat = velocitat;
     }
 
-    public double getRandom(int min, int max) {
-        return Math.random() * (max - min) + min;
+    public float getRandom() {
+        int min = 0;
+        int max = 500;
+        return (float) Math.random() * (max - min) + min;
     }
+
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         //posicio = new Punto(0, 320);
         //posicio2 = new Punto(426, 320);
-        double random = getRandom(0, 640);
-        Rectangle a = new Rectangle(getPosicio().getX(), getPosicio().getY(), 250, 10);
-        Rectangle a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 250, 10);
+        Rectangle a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
+        Rectangle a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
         graphics.draw(a);
         graphics.draw(a2);
+
     }
 
     public Punto getPosicio() {

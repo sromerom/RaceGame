@@ -11,11 +11,15 @@ public class World {
 
     //private Obstacle c = new Obstacle(new Punto(0, 320), new Punto(426, 320), new Velocitat(new Punto(0, 60)));
     //List<Obstacle> obstacles = new ArrayList<>();
-    private List<Obstacle> obstacles = new ArrayList<>();
+    List<Obstacle> obstacles = new ArrayList<>();
+    Player player = new Player(new Punto(300, 400));
     int controlador = 0;
+    boolean xoc = false;
 
     public void add() throws SlickException {
         Obstacle obstacle = new Obstacle(new Punto(0, 0), new Punto(426, 0), new Velocitat(new Punto(0, 60)));
+        float desPosicio = obstacle.random + 140;
+        obstacle.setPosicio2(new Punto(desPosicio, 0));
 
         obstacles.add(obstacle);
     }

@@ -3,24 +3,19 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 public class Player {
-    Circle sc;
-    //Rectangle sc = new Rectangle(0, 0, 30, 30);
-
+    private Circle sc;
     Punto posicioPlayer;
-
     private int score;
-    private float x;
-    private float y;
+
 
     public Player(Punto posicioPlayer) {
+        sc = new Circle(0, 0, 15, 15);
         this.posicioPlayer = posicioPlayer;
     }
-    public void init(GameContainer gameContainer) throws SlickException {
-        Player jugador1 = new Player(new Punto(300, 400));
 
+    public void init(GameContainer gameContainer) throws SlickException {
     }
 
     public void update(GameContainer gameContainer, int i) throws SlickException {
@@ -37,8 +32,6 @@ public class Player {
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        sc = new Circle(0, 0, 15, 15);
-        //graphics.drawString("Això és una prova!!", this.x, this.y);
 
         sc.setX(posicioPlayer.getX());
         sc.setY(posicioPlayer.getY());
