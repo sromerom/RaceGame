@@ -12,7 +12,6 @@ public class World {
     //private Obstacle c = new Obstacle(new Punto(0, 320), new Punto(426, 320), new Velocitat(new Punto(0, 60)));
     //List<Obstacle> obstacles = new ArrayList<>();
     List<Obstacle> obstacles = new ArrayList<>();
-    Player player = new Player(new Punto(300, 400));
     int controlador = 0;
     boolean xoc = false;
 
@@ -26,8 +25,9 @@ public class World {
 
     public void delete() throws SlickException {
         for (int i = 0; i < obstacles.size(); i++) {
-
-
+            if (obstacles.get(i).getPosicio().getY() >= 460) {
+                obstacles.remove(i);
+            }
         }
     }
 
@@ -42,6 +42,7 @@ public class World {
         for (int j = 0; j < obstacles.size(); j++) {
             obstacles.get(j).updateN(i);
         }
+        delete();
         this.controlador += i;
         if (controlador > 2000) {
             add();

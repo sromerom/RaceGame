@@ -10,7 +10,7 @@ public class Obstacle {
     private Punto posicio2;
     private Velocitat velocitat;
     float random = getRandom();
-    public float tm = 640 - (random + 140);
+    public float tm = random + 140;
 
 
     public Obstacle (Punto posicio, Punto posicio2, Velocitat velocitat) {

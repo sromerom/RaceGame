@@ -11,7 +11,7 @@ public class Main {
             gc = new AppGameContainer(new RaceGame("MyGame"));
             gc.setDisplayMode(640, 480, false);
             gc.setTargetFrameRate(60);
-            //gc.setShowFPS(false);
+            gc.setShowFPS(false);
             gc.start();
         } catch (SlickException ex) {
             Logger.getLogger(RaceGame.class.getName()).log(Level.SEVERE, null, ex);

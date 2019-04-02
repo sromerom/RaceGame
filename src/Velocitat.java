@@ -4,8 +4,8 @@ public class Velocitat {
 
     public Velocitat(Punto origen, Punto desti) {
         super();
-        this.setOrigen(origen);
-        this.setDesti(desti);
+        this.origen = origen;
+        this.desti = desti;
     }
 
     public Velocitat(Punto desti) {
@@ -34,10 +34,5 @@ public class Velocitat {
 
     public float getYVelocitat() {
         return desti.getY() - origen.getY();
-    }
-    public float getModulo() {
-        double x = (double) this.getXVelocitat();
-        double y = (double) this.getYVelocitat();
-        return (float) Math.sqrt(x*x + y*y);
     }
 }
