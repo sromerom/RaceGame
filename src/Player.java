@@ -4,17 +4,21 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private Circle sc;
-    Punto posicioPlayer;
+    private Punto posicioPlayer;
     private int score;
     private int maxScore;
     private int pasades;
     private Velocitat velocitat;
+    boolean xoc = false;
 
 
     public Player(Punto posicioPlayer, Velocitat velocitat) {
-        this.posicioPlayer = posicioPlayer;
+        this.setPosicioPlayer(posicioPlayer);
         this.velocitat = velocitat;
     }
 
@@ -22,28 +26,37 @@ public class Player {
         this.setScore(0);
     }
 
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public void update(GameContainer gameContainer, int i, List<Obstacle> obst) throws SlickException {
+        obst = new ArrayList<>();
         Input mou = gameContainer.getInput();
         if (mou.isKeyDown(Input.KEY_RIGHT)) {
-            posicioPlayer.setX(posicioPlayer.getX() + 5);
+            getPosicioPlayer().setX(getPosicioPlayer().getX() + 5);
         } else if (mou.isKeyDown(Input.KEY_LEFT)) {
-            posicioPlayer.setX(posicioPlayer.getX() - 5);
+            getPosicioPlayer().setX(getPosicioPlayer().getX() - 5);
         } else {
-            posicioPlayer.setX(posicioPlayer.getX());
+            getPosicioPlayer().setX(getPosicioPlayer().getX());
         }
 
-        if (posicioPlayer.getX() < 0) {
-            posicioPlayer.setX(0);
-        } else if (posicioPlayer.getX() > 610) {
-            posicioPlayer.setX(640 - 30);
+        if (getPosicioPlayer().getX() < 0) {
+            getPosicioPlayer().setX(0);
+        } else if (getPosicioPlayer().getX() > 610) {
+            getPosicioPlayer().setX(640 - 30);
         }
         this.score += 1;
+        //colisions
+        for (int j = 0; j < obst.size(); j++) {
+            if (sc.intersects(obst.get(j).a2)) {
+                System.out.println("Has chocado");
+                this.xoc = true;
+            }
+        }
+        System.out.println(xoc);
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         sc = new Circle(0, 0, 15, 15);
-        sc.setX(posicioPlayer.getX());
-        sc.setY(posicioPlayer.getY());
+        sc.setX(getPosicioPlayer().getX());
+        sc.setY(getPosicioPlayer().getY());
         graphics.drawString("Score: " + this.score, 10, 10);
         graphics.draw(sc);
 
@@ -79,5 +92,13 @@ public class Player {
 
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
+    }
+
+    public Punto getPosicioPlayer() {
+        return posicioPlayer;
+    }
+
+    public void setPosicioPlayer(Punto posicioPlayer) {
+        this.posicioPlayer = posicioPlayer;
     }
 }

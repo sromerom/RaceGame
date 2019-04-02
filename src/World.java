@@ -13,7 +13,6 @@ public class World {
     //List<Obstacle> obstacles = new ArrayList<>();
     List<Obstacle> obstacles = new ArrayList<>();
     int controlador = 0;
-    boolean xoc = false;
 
     public void add() throws SlickException {
         Obstacle obstacle = new Obstacle(new Punto(0, 0), new Punto(426, 0), new Velocitat(new Punto(0, 60)));

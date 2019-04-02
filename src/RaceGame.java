@@ -7,25 +7,23 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
     Obstacle obstacle = new Obstacle(new Punto(0, 0), new Punto(426, 0), new Velocitat(new Punto(0, 60)));
     Player player = new Player(new Punto(300, 400), new Velocitat(new Punto(0,0)));
     World world = new World();
-    boolean xoc = false;
 
     public RaceGame(String gamename) {
         super(gamename);
+        bonificacioScore();
     }
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         this.player.init(gameContainer);
 
-        world.controlador = 0;
-
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
         //aturar el lloc si fallam
-        if (!xoc) {
-            this.player.update(gameContainer, i);
+        if (!player.xoc) {
+            this.player.update(gameContainer, i, world.obstacles);
             this.world.update(gameContainer, i);
         } else {
             gameContainer.sleep(3000);
@@ -33,24 +31,27 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
         }
 
         //colisions
+        /*
         for (int j = 0; j < world.obstacles.size(); j++) {
             //System.out.println(world.obstacles.get(j).getPosicio().getY());
-            if (world.obstacles.get(j).getPosicio().getY() >= 395 && world.obstacles.get(j).getPosicio().getY() <= 405) {
-                if ((player.posicioPlayer.getX()) + 30 >= world.obstacles.get(j).tm || player.posicioPlayer.getX() <= world.obstacles.get(j).random) {
+            if (world.obstacles.get(j).getPosicio().getY() > 399 && world.obstacles.get(j).getPosicio().getY() < 401) {
+                if ((player.getPosicioPlayer().getX()) + 30 >= world.obstacles.get(j).tm ||
+                        player.getPosicioPlayer().getX() <= world.obstacles.get(j).random) {
                     xoc = true;
                 }
             }
         }
-        bonificacioScore();
+*/
+
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        if (!xoc) {
+        if (!player.xoc) {
             this.world.render(gameContainer, graphics);
             this.player.render(gameContainer, graphics);
         } else {
-            int actualScore = 0;
+            int actualScore;
 
             if (player.getScore() > player.getMaxScore()) {
                 actualScore = player.getScore();
@@ -66,10 +67,9 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
         for (int j = 0; j < world.obstacles.size(); j++) {
             if (world.obstacles.get(j).getPosicio().getY() >= 395 && world.obstacles.get(j).getPosicio().getY() <= 405) {
                 System.out.println("sumas un punto!!");
-                System.out.println(j);
                 player.setPasades(player.getPasades() + 1);
             }
-            if (player.getPasades() == 30) {
+            if (player.getPasades() == 2) {
                 player.setScore(player.getScore() + 1000000);
             }
         }

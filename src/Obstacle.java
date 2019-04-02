@@ -9,6 +9,8 @@ public class Obstacle {
     private Punto posicio;
     private Punto posicio2;
     private Velocitat velocitat;
+    Rectangle a;
+    Rectangle a2;
     float random = getRandom();
     public float tm = random + 140;
 
@@ -28,8 +30,9 @@ public class Obstacle {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         //posicio = new Punto(0, 320);
         //posicio2 = new Punto(426, 320);
-        Rectangle a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
-        Rectangle a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
+       a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
+       a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
+
         graphics.draw(a);
         graphics.draw(a2);
 
