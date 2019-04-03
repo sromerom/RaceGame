@@ -26,15 +26,22 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
         Input n = gameContainer.getInput();
-        System.out.println(actualEstat);
-
+        //System.out.println(actualEstat);
         if (player.xoc) {
             actualEstat = Estat.GAMEOVER;
             if (n.isKeyDown(Input.KEY_ENTER)) {
+
                 actualEstat = Estat.REINICI;
                 world.obstacles.removeAll(world.obstacles);
                 player.xoc = false;
                 player.setScore(0);
+                player.setPasades(0);
+                progresio = 1;
+                progressioScore = 1000;
+                progressioVelocitat = 1;
+                world.temps = 2000;
+                world.augmentaVelocitat = 60;
+
                 if (actualEstat == Estat.REINICI) {
                     player.update(gameContainer, i, world.obstacles);
                     world.update(gameContainer, i);
@@ -49,6 +56,7 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
             if (actualEstat == Estat.JUGANT || actualEstat == Estat.REINICI) {
                 player.update(gameContainer, i, world.obstacles);
                 world.update(gameContainer, i);
+                dificultat();
             }
 
             if (n.isKeyDown(Input.KEY_P)) {
@@ -75,6 +83,7 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
+        
         if (actualEstat == Estat.JUGANT || actualEstat == Estat.REINICI) {
             this.world.render(gameContainer, graphics);
             this.player.render(gameContainer, graphics);
@@ -141,12 +150,12 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
                 }
             } else {
             */
+            //System.out.println(player.getPasades());
             if (player.getScore() == progressioScore) {
                 System.out.println("inici " + player.getPasades());
                 progressioScore += 1000;
                 player.setPasades(player.getPasades() + 1);
             }
-            /* } */
             if (player.getPasades() == progresio) {
                 System.out.println(player.getPasades());
                 System.out.println("Progressio: " + progresio);
@@ -160,7 +169,7 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
                 } else {
                     world.temps -= 50;
                 }
-                System.out.println(world.augmentaVelocitat);
+                //System.out.println(world.augmentaVelocitat);
             }
 
             if (player.getPasades() == progressioVelocitat) {

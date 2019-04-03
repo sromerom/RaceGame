@@ -10,16 +10,12 @@ public class Obstacle {
     Rectangle a;
     Rectangle a2;
     float random = getRandom(0,500);
-    int randomColors = (int) getRandom(1,4);
+    int randomColors = (int) getRandom(1,9);
     public float tm = random + 140;
-    colorsAleatoris cac;
     private Punto posicio;
     private Punto posicio2;
     private Velocitat velocitat;
 
-    public enum colorsAleatoris {
-        VERMELL, GROC, BLAU, VERD
-    }
 
     public Obstacle(Punto posicio, Punto posicio2, Velocitat velocitat) {
         this.setPosicio(posicio);
@@ -33,7 +29,7 @@ public class Obstacle {
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         Graphics gObstacle = new Graphics();
-
+        //System.out.println(randomColors);
         switch (randomColors) {
             case 1:
                 gObstacle.setColor(Color.red);
@@ -50,6 +46,21 @@ public class Obstacle {
                 gObstacle.setColor(Color.green);
                 break;
 
+            case 5:
+                gObstacle.setColor(Color.orange);
+                break;
+            case 6:
+                gObstacle.setColor(Color.cyan);
+                break;
+            case 7:
+                gObstacle.setColor(Color.gray);
+                break;
+            case 8:
+                gObstacle.setColor(Color.magenta);
+                break;
+            case 9:
+                gObstacle.setColor(Color.pink);
+                break;
             default:
                 break;
         }

@@ -52,6 +52,7 @@ public class Player {
         sc.setY(getPosicioPlayer().getY());
 
         graphics.drawString("Score: " + this.score, 10, 10);
+        graphics.drawString("MaxScore: " + this.maxScore, 10, 30);
         graphics.draw(sc);
     }
 
