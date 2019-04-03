@@ -1,3 +1,4 @@
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -15,7 +16,7 @@ public class Obstacle {
     public float tm = random + 140;
 
 
-    public Obstacle (Punto posicio, Punto posicio2, Velocitat velocitat) {
+    public Obstacle(Punto posicio, Punto posicio2, Velocitat velocitat) {
         this.setPosicio(posicio);
         this.setPosicio2(posicio2);
         this.velocitat = velocitat;
@@ -30,9 +31,8 @@ public class Obstacle {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         //posicio = new Punto(0, 320);
         //posicio2 = new Punto(426, 320);
-       a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
-       a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
-
+        a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
+        a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
         graphics.draw(a);
         graphics.draw(a2);
 
@@ -49,6 +49,7 @@ public class Obstacle {
     public Punto getPosicio2() {
         return posicio2;
     }
+
     public void setPosicio2(Punto posicio2) {
         this.posicio2 = posicio2;
     }

@@ -3,7 +3,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +12,11 @@ public class World {
     //List<Obstacle> obstacles = new ArrayList<>();
     List<Obstacle> obstacles = new ArrayList<>();
     int controlador = 0;
+    int augmentaVelocitat = 60;
+    int temps = 2000;
 
     public void add() throws SlickException {
-        Obstacle obstacle = new Obstacle(new Punto(0, 0), new Punto(426, 0), new Velocitat(new Punto(0, 60)));
+        Obstacle obstacle = new Obstacle(new Punto(0, 0), new Punto(426, 0), new Velocitat(new Punto(0, augmentaVelocitat)));
         float desPosicio = obstacle.random + 140;
         obstacle.setPosicio2(new Punto(desPosicio, 0));
 
@@ -43,7 +44,8 @@ public class World {
         }
         delete();
         this.controlador += i;
-        if (controlador > 2000) {
+        if (controlador > temps) {
+            System.out.println(temps);
             add();
             controlador = 0;
         }
