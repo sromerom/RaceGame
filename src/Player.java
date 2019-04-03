@@ -1,7 +1,4 @@
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -53,6 +50,7 @@ public class Player {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         sc.setX(getPosicioPlayer().getX());
         sc.setY(getPosicioPlayer().getY());
+
         graphics.drawString("Score: " + this.score, 10, 10);
         graphics.draw(sc);
     }

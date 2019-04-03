@@ -1,16 +1,17 @@
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 public class RaceGame extends org.newdawn.slick.BasicGame {
 
-    Obstacle obstacle = new Obstacle(new Punto(0, 0), new Punto(426, 0), new Velocitat(new Punto(0, 60)));
+
     Player player = new Player(new Punto(300, 400), new Velocitat(new Punto(0, 0)));
     World world = new World();
     int progresio = 1;
     int progressioVelocitat = 1;
     int progressioScore = 1000;
-    String actualEstat = "";
+    Estat actualEstat;
+    public enum Estat {
+        INICI, JUGANT, PAUSE, GAMEOVER, REINICI
+    }
 
     public RaceGame(String gamename) {
         super(gamename);
@@ -19,45 +20,91 @@ public class RaceGame extends org.newdawn.slick.BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         this.player.init(gameContainer);
-        actualEstat = "Funcionant";
+        actualEstat = Estat.INICI;
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
+        Input n = gameContainer.getInput();
+        System.out.println(actualEstat);
+
         if (player.xoc) {
-            actualEstat = "GameOver";
+            actualEstat = Estat.GAMEOVER;
+            if (n.isKeyDown(Input.KEY_ENTER)) {
+                actualEstat = Estat.REINICI;
+                world.obstacles.removeAll(world.obstacles);
+                player.xoc = false;
+                player.setScore(0);
+                if (actualEstat == Estat.REINICI) {
+                    player.update(gameContainer, i, world.obstacles);
+                    world.update(gameContainer, i);
+                }
+            }
+
+            if (n.isKeyDown(Input.KEY_ESCAPE)) {
+                gameContainer.exit();
+            }
+
+        } else {
+            if (actualEstat == Estat.JUGANT || actualEstat == Estat.REINICI) {
+                player.update(gameContainer, i, world.obstacles);
+                world.update(gameContainer, i);
+            }
+
+            if (n.isKeyDown(Input.KEY_P)) {
+                actualEstat = Estat.PAUSE;
+                gameContainer.pause();
+            }
+
+            if (actualEstat == Estat.PAUSE) {
+                if (n.isKeyDown(Input.KEY_ESCAPE)) {
+                    actualEstat = Estat.JUGANT;
+                    gameContainer.resume();
+                }
+            }
+
+            if (actualEstat == Estat.INICI) {
+                if (n.isKeyDown(Input.KEY_SPACE)) {
+                    actualEstat = Estat.JUGANT;
+                }
+            }
         }
 
-        //Estats
-        if (actualEstat.equals("Funcionant")) {
-            this.player.update(gameContainer, i, world.obstacles);
-            this.world.update(gameContainer, i);
-            dificultat();
-        }
-
-        if (actualEstat.equals("GameOver")) {
-            gameContainer.isPaused();
-        }
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
-        if (actualEstat.equals("Funcionant")) {
+        if (actualEstat == Estat.JUGANT || actualEstat == Estat.REINICI) {
             this.world.render(gameContainer, graphics);
             this.player.render(gameContainer, graphics);
         }
 
-        if (actualEstat.equals("GameOver")) {
-            int actualScore;
+        if (player.xoc) {
+            if (actualEstat == Estat.GAMEOVER) {
+                int actualScore;
 
-            if (player.getScore() > player.getMaxScore()) {
-                actualScore = player.getScore();
-                player.setMaxScore(actualScore);
+                if (player.getScore() > player.getMaxScore()) {
+                    actualScore = player.getScore();
+                    player.setMaxScore(actualScore);
+                }
+                graphics.drawString("Has xocat!!", 230, 200);
+                graphics.drawString("Score: " + player.getScore(), 230, 240);
+                graphics.drawString("MaxScore: " + player.getMaxScore(), 230, 280);
+
+                if (actualEstat == Estat.REINICI) {
+                    graphics.drawString("Estat reiniciat", 230, 200);
+                    this.world.render(gameContainer, graphics);
+                    this.player.render(gameContainer, graphics);
+                }
             }
-            graphics.drawString("Has xocat!!", 230, 200);
-            graphics.drawString("Score: " + player.getScore(), 230, 240);
-            graphics.drawString("MaxScore: " + player.getMaxScore(), 230, 280);
+        }
+        if (actualEstat == Estat.PAUSE) {
+            graphics.drawString("Game Paused", 230, 200);
+        }
+
+        if (actualEstat == Estat.INICI) {
+            graphics.drawString("Press SPACE BAR to start game", 130, 200);
         }
     }
 

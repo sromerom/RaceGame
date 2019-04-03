@@ -7,14 +7,19 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Obstacle {
 
+    Rectangle a;
+    Rectangle a2;
+    float random = getRandom(0,500);
+    int randomColors = (int) getRandom(1,4);
+    public float tm = random + 140;
+    colorsAleatoris cac;
     private Punto posicio;
     private Punto posicio2;
     private Velocitat velocitat;
-    Rectangle a;
-    Rectangle a2;
-    float random = getRandom();
-    public float tm = random + 140;
 
+    public enum colorsAleatoris {
+        VERMELL, GROC, BLAU, VERD
+    }
 
     public Obstacle(Punto posicio, Punto posicio2, Velocitat velocitat) {
         this.setPosicio(posicio);
@@ -22,19 +27,39 @@ public class Obstacle {
         this.velocitat = velocitat;
     }
 
-    public float getRandom() {
-        int min = 0;
-        int max = 500;
+    public float getRandom(int min, int max) {
         return (float) Math.random() * (max - min) + min;
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        Graphics gObstacle = new Graphics();
+
+        switch (randomColors) {
+            case 1:
+                gObstacle.setColor(Color.red);
+                break;
+
+            case 2:
+                gObstacle.setColor(Color.yellow);
+                break;
+
+            case 3:
+                gObstacle.setColor(Color.blue);
+                break;
+            case 4:
+                gObstacle.setColor(Color.green);
+                break;
+
+            default:
+                break;
+        }
         //posicio = new Punto(0, 320);
         //posicio2 = new Punto(426, 320);
+
         a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
         a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
-        graphics.draw(a);
-        graphics.draw(a2);
+        gObstacle.draw(a);
+        gObstacle.draw(a2);
 
     }
 
