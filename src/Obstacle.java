@@ -1,35 +1,31 @@
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
 
+//Classe obstacle a on crearem el nostre obstacle on despres crearem molts en world
 public class Obstacle {
 
-    Rectangle a;
-    Rectangle a2;
-    float random = getRandom(0,500);
-    int randomColors = (int) getRandom(1,9);
-    public float tm = random + 140;
-    private Punto posicio;
-    private Punto posicio2;
+    //El nostre objecte consta de dos dibuixos. Un per el costat dret de la pantalla i un altre per l'esquerra
+    Rectangle dibuixObstacle1;
+    Rectangle dibuixObstacle2;
+    private Coordenada posicioObstacle1;
+    private Coordenada posicioObstacle2;
     private Velocitat velocitat;
 
+    public float random = getRandom(0, 500);
+    private int randomColors = (int) getRandom(1, 9);
 
-    public Obstacle(Punto posicio, Punto posicio2, Velocitat velocitat) {
-        this.setPosicio(posicio);
-        this.setPosicio2(posicio2);
-        this.velocitat = velocitat;
+    //Contructor a on un obejcte li passarem la posicio del obstacle1, la posicio del obstacle2, i la velocitat d'aquests
+    public Obstacle(Coordenada posicioObstacle1, Coordenada posicioObstacle2, Velocitat velocitat) {
+        this.setPosicioObstacle1(posicioObstacle1);
+        this.setPosicioObstacle2(posicioObstacle2);
+        this.setVelocitat(velocitat);
     }
 
-    public float getRandom(int min, int max) {
-        return (float) Math.random() * (max - min) + min;
-    }
-
+    //metode render on dibuixam el nostre obstacle
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         Graphics gObstacle = new Graphics();
-        //System.out.println(randomColors);
+        //switch on assignara un color random al obstacles
         switch (randomColors) {
             case 1:
                 gObstacle.setColor(Color.red);
@@ -64,30 +60,56 @@ public class Obstacle {
             default:
                 break;
         }
-        //posicio = new Punto(0, 320);
-        //posicio2 = new Punto(426, 320);
 
-        a = new Rectangle(getPosicio().getX(), getPosicio().getY(), random, 10);
-        a2 = new Rectangle(getPosicio2().getX(), getPosicio2().getY(), 640 - (random + 140), 10);
-        gObstacle.draw(a);
-        gObstacle.draw(a2);
+        //Assignam una posicio al obstacle1 i al obstacle2 i els dibuixam
+        this.dibuixObstacle1 = new Rectangle(getPosicioObstacle1().getX(), getPosicioObstacle1().getY(), this.random, 10);
+        this.dibuixObstacle2 = new Rectangle(getPosicioObstacle2().getX(), getPosicioObstacle2().getY(), 640 - (this.random + 140), 10);
+        gObstacle.draw(dibuixObstacle1);
+        gObstacle.draw(dibuixObstacle2);
 
     }
 
-    public Punto getPosicio() {
-        return posicio;
+    //Metode UpdateN on assignam un moviment cap avall al obstacle. Gràcies a la formula velocitat = espai / temps podem deduïr aquesta velocitat.
+    //Amb aquesta operació podrem actualitzar el obstacle cada vegada que el metode render el cridi. La posicio anira augmentant
+    public void updateN(int delta) {
+        //Formula per crear moviment constant als obstacles
+        //posicionFinal = posicioInicial + velocitat * temps
+
+        float temps = (float) delta / 1000;
+
+        //Posicio final pel l'obstacle1
+        float x = getPosicioObstacle1().getX() + getVelocitat().getXVelocitat() * temps;
+        float y = getPosicioObstacle1().getY() + getVelocitat().getYVelocitat() * temps;
+
+        //Posicio final pel l'obstacle2
+        float x2 = getPosicioObstacle2().getX() + getVelocitat().getXVelocitat() * temps;
+        float y2 = getPosicioObstacle2().getY() + getVelocitat().getYVelocitat() * temps;
+
+        //assignam les noves coordenades que han sortit a la posicio actual del obstacle1 i del obstacle2
+        this.setPosicioObstacle1(new Coordenada(x, y));
+        this.setPosicioObstacle2(new Coordenada(x2, y2));
     }
 
-    public void setPosicio(Punto posicio) {
-        this.posicio = posicio;
+    //Metode que ens torna un numero random entre un rang especificat
+    public float getRandom(int min, int max) {
+        return (float) Math.random() * (max - min) + min;
     }
 
-    public Punto getPosicio2() {
-        return posicio2;
+    //Getters and Setters
+    public Coordenada getPosicioObstacle1() {
+        return posicioObstacle1;
     }
 
-    public void setPosicio2(Punto posicio2) {
-        this.posicio2 = posicio2;
+    public void setPosicioObstacle1(Coordenada posicioObstacle1) {
+        this.posicioObstacle1 = posicioObstacle1;
+    }
+
+    public Coordenada getPosicioObstacle2() {
+        return posicioObstacle2;
+    }
+
+    public void setPosicioObstacle2(Coordenada posicioObstacle2) {
+        this.posicioObstacle2 = posicioObstacle2;
     }
 
     public Velocitat getVelocitat() {
@@ -97,43 +119,5 @@ public class Obstacle {
     public void setVelocitat(Velocitat velocitat) {
         this.velocitat = velocitat;
     }
-
-    public void updateN(int delta) {
-        float x = posicio.getX() + velocitat.getXVelocitat() * ((float) delta / 1000);
-        float y = posicio.getY() + velocitat.getYVelocitat() * ((float) delta / 1000);
-        float x2 = posicio2.getX() + velocitat.getXVelocitat() * ((float) delta / 1000);
-        float y2 = posicio2.getY() + velocitat.getYVelocitat() * ((float) delta / 1000);
-        this.setPosicio(new Punto(x, y));
-        this.setPosicio2(new Punto(x2, y2));
-    }
 }
-
-
-class Punto {
-    private float x;
-    private float y;
-
-    public Punto(float x, float y) {
-
-        this.setX(x);
-        this.setY(y);
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-}
-
 

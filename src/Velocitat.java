@@ -1,38 +1,45 @@
+//Classe Velocitat que ens permetra assignar una velocitat a un objecte del nostre joc
+
 public class Velocitat {
-    private Punto origen;
-    private Punto desti;
+    private Coordenada origen;
+    private Coordenada desti;
 
-    public Velocitat(Punto origen, Punto desti) {
+    //Constructor de Velocitat a on l'hi passam com a parametre l'origen i el destí ()
+    public Velocitat(Coordenada origen, Coordenada desti) {
         super();
-        this.origen = origen;
-        this.desti = desti;
+        this.setOrigen(origen);
+        this.setDesti(desti);
     }
 
-    public Velocitat(Punto desti) {
-       this(new Punto(0,0), desti);
-    }
-
-    public Punto getOrigen() {
-        return origen;
-    }
-
-    public void setOrigen(Punto origen) {
-        this.origen = origen;
-    }
-
-    public Punto getDesti() {
-        return desti;
-    }
-
-    public void setDesti(Punto desti) {
-        this.desti = desti;
+    //Constructor de Velocitat a on només l'hi passem per parametre el destí
+    public Velocitat(Coordenada desti) {
+        this(new Coordenada(0, 0), desti);
     }
 
     public float getXVelocitat() {
-       return desti.getX() - origen.getX();
+        //Coordenada = desti - origin;
+        return getDesti().getX() - getOrigen().getX();
     }
 
     public float getYVelocitat() {
-        return desti.getY() - origen.getY();
+        //Coordenada = desti - origin;
+        return getDesti().getY() - getOrigen().getY();
+    }
+
+    //Getters and Setters
+    public Coordenada getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Coordenada origen) {
+        this.origen = origen;
+    }
+
+    public Coordenada getDesti() {
+        return desti;
+    }
+
+    public void setDesti(Coordenada desti) {
+        this.desti = desti;
     }
 }
